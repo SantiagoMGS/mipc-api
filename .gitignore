@@ -4,6 +4,8 @@
 /build
 /postgres
 
+notas.txt
+
 # Logs
 logs
 *.log
