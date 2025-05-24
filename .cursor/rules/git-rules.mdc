@@ -3,25 +3,25 @@ description:
 globs: 
 alwaysApply: true
 ---
-# Reglas para Mensajes de Commit
+# Commit Message Rules
 
-- Los mensajes de commit deben ser **cortos pero descriptivos** (máximo 50 caracteres en la línea principal).
-- Utiliza el **imperativo** en la línea principal (ejemplo: "Agrega validación de usuario").
-- No uses punto final en la línea principal.
-- Si es necesario, agrega una descripción más detallada en un segundo párrafo separado por una línea en blanco.
-- Sigue la convención: `<tipo>: <mensaje>`, donde `<tipo>` puede ser:
-  - feat: para nuevas funcionalidades
-  - fix: para corrección de errores
-  - docs: para cambios en la documentación
-  - style: para cambios de formato (sin afectar el código)
-  - refactor: para refactorizaciones
-  - test: para agregar o corregir tests
-  - chore: para tareas de mantenimiento
-- Ejemplo de mensaje válido:
+- Commit messages must be **short but descriptive** (max 50 characters in the subject line).
+- Use the **imperative mood** in the subject line (e.g., "Add user validation").
+- Do not use a period at the end of the subject line.
+- If needed, add a more detailed description in a second paragraph, separated by a blank line.
+- Follow the convention: `<type>: <message>`, where `<type>` can be:
+  - feat: for new features
+  - fix: for bug fixes
+  - docs: for documentation changes
+  - style: for formatting changes (no code logic)
+  - refactor: for code refactoring
+  - test: for adding or fixing tests
+  - chore: for maintenance tasks
+- Example of a valid message:
   ```
-  feat: agrega endpoint para registro de usuarios
+  feat: add user registration endpoint
 
-  Permite registrar nuevos usuarios con validación de email.
+  Allows registering new users with email validation.
   ```
 
-- Evita mensajes genéricos como "update", "cambios", "arreglos varios".
+- Avoid generic messages like "update", "changes", "various fixes".

@@ -1,0 +1,37 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Hexagonal Architecture & Best Practices
+
+## Project Structure
+
+The project follows a hexagonal architecture (ports and adapters) with these layers:
+
+- **Domain**: Entities, business rules, ports (interfaces). No dependencies on other layers. (`src/domain/`)
+- **Core**: Shared domain services and factories. (`src/core/`)
+- **Application**: UseCases, input/output interfaces, application flow orchestration. (`src/application/`)
+- **Infrastructure**: Secondary adapters, concrete implementations, database access, external services. (`src/infrastructure/`)
+- **Presentation**: Primary adapters, controllers, views, HTTP endpoints. (`src/presentation/`)
+
+## Principles & Best Practices
+
+- **SOLID**: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion.
+- **DRY**: Avoid code duplication, create reusable abstractions, centralize common logic.
+- **Clean Code**: Descriptive names, small single-purpose functions, comments only when necessary, self-explanatory code.
+
+## Conventions
+
+- **File Naming**:  
+  - Interfaces: `IName.ts`  
+  - Implementations: `Name.impl.ts`
+- **Folder Structure**:  
+  - Each layer in its own folder  
+  - Modules organized by feature  
+  - Tests next to the code they test
+- **Dependencies**:  
+  - Dependencies flow inward  
+  - Domain layer has no dependencies  
+
+  - Outer layers depend on inner layers

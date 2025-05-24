@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Code Conventions
+
+## Architecture & Layers
+- **Domain**: Entities, interfaces (ports), pure business logic. (`src/domain/`)
+- **Core**: Reusable domain services and factories. (`src/core/`)
+- **Application**: UseCases and input/output interfaces. (`src/application/`)
+- **Infrastructure**: DataSources (direct DB access), Repositories (data access logic). (`src/infrastructure/`)
+- **Presentation**: Controllers, validation and response DTOs. (`src/presentation/`)
+
+## Patterns & Location
+- **DataSource**: Pure CRUD, no business logic. (`src/infrastructure/datasources/`)
+- **Repository**: Uses DataSource, transforms data, implements domain interfaces. (`src/infrastructure/repositories/`)
+- **UseCase**: Orchestrates business logic, uses repositories. (`src/application/usecases/`)
+- **Service**: Shared logic, can be used by multiple UseCases. (`src/core/services/`)
+
+## Interfaces & DTOs
+- **Application Interfaces**: Input/output contracts for UseCases, no decorators. (`src/application/interfaces/`)
+- **Presentation DTOs**:
+  - **Validation**: class-validator, controller input. (`src/presentation/dtos/requests/`)
+  - **Response**: HTTP output structure. (`src/presentation/dtos/responses/`)
+
+## Naming
+- Classes/Interfaces: PascalCase, prefix `I` for interfaces.
+- Implementations: suffix `Impl`.
+- DTOs: suffix `DTO`.
+- UseCases: suffix `UseCase`.
+
+## Best Practices
+- SOLID, DRY, Clean Code.
+- Unit and integration tests per layer.
+- Document only when necessary.
+
+## Error Handling
+- Domain errors: `src/domain/errors/`
+
+- Application errors: `src/application/errors/`
