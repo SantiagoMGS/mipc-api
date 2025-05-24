@@ -1,7 +1,9 @@
 import { UserEntity } from '@domain/user/user.entity';
 import { UserRepository } from '@domain/user/user.repository';
 import { UserDatasource } from './user.prisma.datasource';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private readonly userDatasource: UserDatasource) {
     this.userDatasource = userDatasource;
