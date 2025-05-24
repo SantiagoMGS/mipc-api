@@ -1,0 +1,22 @@
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  fullName  String
+  roleId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@map("users")
+}
+
+model Role {
+  id          String @id @default(uuid())
+  name        String @unique
+  
+  users       User[]
+
+  @@map("roles")
+}
