@@ -16,7 +16,7 @@ export class UserRepositoryImpl implements UserRepository {
         id: user.id,
         email: user.email,
         fullName: user.fullName,
-        role: user.roleId,
+        role: user.role.name,
       };
     });
   }
