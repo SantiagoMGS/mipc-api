@@ -5,6 +5,7 @@ export type UserGetPayload = Prisma.UserGetPayload<{
     id: true;
     email: true;
     fullName: true;
+    password: true;
     role: {
       select: {
         id: true;

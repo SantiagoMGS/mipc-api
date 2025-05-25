@@ -2,14 +2,41 @@ import { UserRepository } from '@domain/user/user.repository';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { EmailAlreadyExistsError } from '@domain/exceptions/email-already-exists.error';
 import { CreateUserCommand } from './command/create-user.comand';
+import { GetRoleByIdUseCase } from '../role/get-role-by-id.use-case';
+import { UserEntity } from '@domain/user/user.entity';
+import { v4 as uuidv4 } from 'uuid';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class CreateUserUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly getRoleByIdUseCase: GetRoleByIdUseCase,
+  ) {}
 
-  async execute(user: CreateUserCommand) {
+  async execute(command: CreateUserCommand): Promise<UserResponseDto> {
     try {
-      return await this.userRepository.create(user);
+      const role = await this.getRoleByIdUseCase.execute({
+        id: command.roleId,
+      });
+      const userId = uuidv4();
+      const passwordHash = `hashed_${command.password}`;
+      const newUserEntity: UserEntity = new UserEntity({
+        id: userId,
+        email: command.email,
+        fullName: command.fullName,
+        passwordHash: passwordHash,
+        roleId: command.roleId,
+        roleName: role.name,
+      });
+      const createdUser = await this.userRepository.create(newUserEntity);
+      return {
+        id: createdUser.id,
+        email: createdUser.email,
+        fullName: createdUser.fullName,
+        roleId: createdUser.roleId,
+        roleName: createdUser.roleName,
+      };
     } catch (error) {
       if (error instanceof EmailAlreadyExistsError) {
         throw new ConflictException(error.message);

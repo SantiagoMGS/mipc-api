@@ -16,13 +16,22 @@ export class UserRepositoryImpl implements UserRepository {
         id: user.id,
         email: user.email,
         fullName: user.fullName,
-        role: user.role.name,
+        passwordHash: user.password,
+        roleId: user.role.id,
+        roleName: user.role.name,
       };
     });
   }
 
-  async create(user: any): Promise<any> {
-    const newUser = await this.userDatasource.create(user);
-    return newUser;
+  async create(userEntity: UserEntity): Promise<UserEntity> {
+    const newUser = await this.userDatasource.create(userEntity);
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      fullName: newUser.fullName,
+      passwordHash: newUser.password,
+      roleId: newUser.role.id,
+      roleName: newUser.role.name,
+    };
   }
 }
