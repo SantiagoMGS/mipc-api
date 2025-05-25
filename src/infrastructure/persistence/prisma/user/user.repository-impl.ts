@@ -20,4 +20,9 @@ export class UserRepositoryImpl implements UserRepository {
       };
     });
   }
+
+  async create(user: any): Promise<any> {
+    const newUser = await this.userDatasource.create(user);
+    return newUser;
+  }
 }
