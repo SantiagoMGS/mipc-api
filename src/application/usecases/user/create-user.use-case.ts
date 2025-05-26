@@ -1,11 +1,12 @@
 import { UserRepository } from '@domain/user/user.repository';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { EmailAlreadyExistsError } from '@domain/exceptions/email-already-exists.error';
-import { CreateUserCommand } from './command/create-user.comand';
+import { CreateUserCommand } from './command/create-user.command';
 import { GetRoleByIdUseCase } from '../role/get-role-by-id.use-case';
 import { UserEntity } from '@domain/user/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { UserResponseDto } from './dto/user-response.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -20,7 +21,7 @@ export class CreateUserUseCase {
         id: command.roleId,
       });
       const userId = uuidv4();
-      const passwordHash = `hashed_${command.password}`;
+      const passwordHash = await bcrypt.hash(command.password, 10);
       const newUserEntity: UserEntity = new UserEntity({
         id: userId,
         email: command.email,

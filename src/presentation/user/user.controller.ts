@@ -4,9 +4,8 @@ import {
 } from '@application/usecases/user/';
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CreateUserCommand } from '@application/usecases/user/command/create-user.comand';
-import { UserResponseDto } from '@application/usecases/user/dto/user-response.dto';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CreateUserCommand } from '@application/usecases/user/command/create-user.command';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -16,11 +15,6 @@ export class UserController {
   ) {}
 
   @ApiOperation({ summary: 'Obtener todos los usuarios' })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de usuarios obtenida correctamente',
-    type: UserResponseDto,
-  })
   @Get()
   getUsers() {
     const users = this.getAllUsersUseCase.execute();
@@ -29,11 +23,6 @@ export class UserController {
 
   @ApiOperation({ summary: 'Crear un nuevo usuario' })
   @ApiResponse({
-    status: 201,
-    description: 'Usuario creado correctamente',
-    type: UserResponseDto,
-  })
-  @ApiResponse({
     status: 409,
     description: 'El email ya está en uso',
   })
@@ -41,7 +30,6 @@ export class UserController {
     status: 404,
     description: 'El rol no existe',
   })
-  @ApiBody({ type: CreateUserDto })
   @Post()
   createUser(@Body() createUserDto: CreateUserDto) {
     const command: CreateUserCommand = {
