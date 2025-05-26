@@ -2,6 +2,7 @@ import { UserEntity } from '@domain/user/user.entity';
 import { UserRepository } from '@domain/user/user.repository';
 import { UserDatasource } from './user.prisma.datasource';
 import { Injectable } from '@nestjs/common';
+import { UserMapper } from './user.mapper';
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
@@ -11,27 +12,19 @@ export class UserRepositoryImpl implements UserRepository {
 
   async findAll(): Promise<UserEntity[]> {
     const users = await this.userDatasource.getAll();
-    return users.map((user) => {
-      return {
-        id: user.id,
-        email: user.email,
-        fullName: user.fullName,
-        passwordHash: user.password,
-        roleId: user.role.id,
-        roleName: user.role.name,
-      };
-    });
+    return UserMapper.toDomainList(users);
   }
 
   async create(userEntity: UserEntity): Promise<UserEntity> {
     const newUser = await this.userDatasource.create(userEntity);
-    return {
-      id: newUser.id,
-      email: newUser.email,
-      fullName: newUser.fullName,
-      passwordHash: newUser.password,
-      roleId: newUser.role.id,
-      roleName: newUser.role.name,
-    };
+    return UserMapper.toDomain(newUser);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    const user = await this.userDatasource.findByEmail(email);
+    if (!user) {
+      return null;
+    }
+    return UserMapper.toDomain(user);
   }
 }

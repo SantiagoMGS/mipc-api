@@ -45,4 +45,14 @@ export class UserDatasource {
       throw error;
     }
   }
+
+  async findByEmail(email: string): Promise<UserGetPayload | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      include: {
+        role: true,
+      },
+    });
+    return user;
+  }
 }
